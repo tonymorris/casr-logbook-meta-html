@@ -1,54 +1,77 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Data.Aviation.Casr.Logbook.Meta.Html where
+module Data.Aviation.Casr.Logbook.Meta.Html(
+    htmlAircraftUsageExpense
+  , htmlAircraftLandingExpense
+  , htmlAircraftFlightExpense
+  , htmlSimulatorFlightExpense
+  , htmlExamExpense
+  , htmlBriefingExpense
+  , htmlVisualisation
+  , strImageType
+  , htmlImageSource
+  , htmlImage
+  , strTrackLogType
+  , htmlTrackLogSource
+  , htmlTrackLog
+  , strVideoType
+  , htmlVideoSource
+  , htmlVideo
+  , htmlTrackLogs
+  , htmlVisualisations
+  , htmlImages
+  , htmlVideos
+  , htmlAircraftFlightExpenses
+  , htmlAircraftFlightMeta
+  , htmlSimulatorFlightMeta
+  , htmlExamMeta
+  , htmlBriefingMeta
+  , aircraftUsageCost
+  , briefingCost
+  , simulatorFlightCost
+  , showCentsAsDollars
+  , showThousandCentsAsDollars
+  , showHundredCentsAsDollars
+  , whenEmpty  
+) where
 
 import Control.Category((.), id)
 import Control.Lens((^.))
 import Control.Monad(when)
-import Data.Aviation.Casr.Logbook {- (
-    arn
-  , firstname
-  , surname
-  , logbookaviator
-  , daytime
-  , briefingTime
-  , briefingName
-  , examName
-  , examTime
-  , simulatorflightname
-  , simulatortype
-  , point
-  , flightStart
-  , flightEnd
-  , flightpath
-  , aircraftRegistration
-  , aircraftflightname
-  , flightaircraft
-  , landingTime
-  , zerotimeamount
-  , flightPathList
-  , Command(ICUS, Dual, InCommand)
-  , Rating(Rating)
-  , Aircraft(Aircraft)
-  , Engine(Single, Multi)
-  , FlightPath
-  , FlightPoint(FlightPoint)
-  , Time(Time)
-  , TimeAmount(TimeAmount)
-  , DayNight(DayNight)
-  , Briefing(Briefing)
-  , Exam(Exam)
-  , Location(Location)
-  , Aviator(Aviator)
-  , Entries(Entries)
-  , Logbook(Logbook)
-  , AircraftFlight(AircraftFlight)
-  , SimulatorFlight(SimulatorFlight)
+import Data.Aviation.Casr.Logbook (
+    instrumentsimulatorTime
+  , timeAmountBy10
+  , briefingTimeAmount
+  , daynight
+  , totalDayNight
+  , AircraftFlight
+  , SimulatorFlight
   , Briefing
   , Exam
-  , Entry(BriefingEntry, ExamEntry, SimulatorFlightEntry, AircraftFlightEntry)
-  ) -}
-import Data.Aviation.Casr.Logbook.Meta
+  , HasSimulatorFlight
+  , HasAircraftFlight
+  , HasBriefing
+  )
+import Data.Aviation.Casr.Logbook.Meta(
+    AircraftFlightExpense(ExpenseAircraftUsage, ExpenseAircraftLanding)
+  , AircraftFlightMeta(AircraftFlightMeta)
+  , AircraftLandingExpense(AircraftLandingExpense)
+  , AircraftUsageExpense(AircraftUsageExpense)
+  , BriefingExpense(BriefingExpense)
+  , BriefingMeta(BriefingMeta)
+  , ExamExpense(ExamExpense)
+  , ExamMeta(ExamMeta)
+  , Image(Image)
+  , ImageType(Jpg, Png, Gif)
+  , SimulatorFlightExpense(SimulatorFlightExpense)
+  , SimulatorFlightMeta(SimulatorFlightMeta)
+  , TrackLog(TrackLog)
+  , TrackLogType(Gpx, Kml, Kmz, ImageTrackLog)
+  , Video(Video)
+  , VideoType(YouTube, Vimeo, Bambuser)
+  , Visualisation(Doarama)
+  , linkVideoType
+  ) 
 import Data.Bool(not)
 import Data.Foldable(mapM_, null)
 import Data.Function(($))
