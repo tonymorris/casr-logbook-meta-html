@@ -1,3 +1,7 @@
+0.0.3
+
+* Use `casr-logbook-types` and not `casr-logbook`.
+
 0.0.2
 
 * Use `casr-logbook-meta-0.0.3`.

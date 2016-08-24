@@ -34,7 +34,7 @@ module Data.Aviation.Casr.Logbook.Meta.Html(
 
 import Control.Category((.), id)
 import Control.Monad(when)
-import Data.Aviation.Casr.Logbook (
+import Data.Aviation.Casr.Logbook.Types (
     AircraftFlight
   , SimulatorFlight
   , Briefing
