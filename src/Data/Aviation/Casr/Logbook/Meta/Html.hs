@@ -26,9 +26,6 @@ module Data.Aviation.Casr.Logbook.Meta.Html(
   , htmlSimulatorFlightMeta
   , htmlExamMeta
   , htmlBriefingMeta
-  , aircraftUsageCost
-  , briefingCost
-  , simulatorFlightCost
   , showCentsAsDollars
   , showThousandCentsAsDollars
   , showHundredCentsAsDollars
@@ -36,21 +33,12 @@ module Data.Aviation.Casr.Logbook.Meta.Html(
 ) where
 
 import Control.Category((.), id)
-import Control.Lens((^.))
 import Control.Monad(when)
 import Data.Aviation.Casr.Logbook (
-    instrumentsimulatorTime
-  , timeAmountBy10
-  , briefingTimeAmount
-  , daynight
-  , totalDayNight
-  , AircraftFlight
+    AircraftFlight
   , SimulatorFlight
   , Briefing
   , Exam
-  , HasSimulatorFlight
-  , HasAircraftFlight
-  , HasBriefing
   )
 import Data.Aviation.Casr.Logbook.Meta(
     AircraftFlightExpense(ExpenseAircraftUsage, ExpenseAircraftLanding)
@@ -71,6 +59,9 @@ import Data.Aviation.Casr.Logbook.Meta(
   , VideoType(YouTube, Vimeo, Bambuser)
   , Visualisation(Doarama)
   , linkVideoType
+  , aircraftUsageCost
+  , simulatorFlightCost
+  , briefingCost
   ) 
 import Data.Bool(not)
 import Data.Foldable(mapM_, null)
@@ -372,33 +363,6 @@ htmlBriefingMeta b (BriefingMeta s) =
           mapM_ (li_ [class_ "expense"] . htmlBriefingExpense b) q) s
 
 ----
-
-aircraftUsageCost ::
-  HasAircraftFlight s =>
-  s
-  -> AircraftUsageExpense
-  -> Int
-aircraftUsageCost fl (AircraftUsageExpense perhour _) =
-  let z = totalDayNight (fl ^. daynight)
-  in  timeAmountBy10 z * perhour
-
-briefingCost ::
-  HasBriefing s =>
-  s
-  -> BriefingExpense
-  -> Int
-briefingCost br (BriefingExpense perhour _) =
-  let z = br ^. briefingTimeAmount
-  in  timeAmountBy10 z * perhour
-
-simulatorFlightCost ::
-  HasSimulatorFlight s =>
-  s
-  -> SimulatorFlightExpense
-  -> Int
-simulatorFlightCost sf (SimulatorFlightExpense perhour _) =
-  let z = sf ^. instrumentsimulatorTime
-  in  timeAmountBy10 z * perhour
 
 showCentsAsDollars ::
   Int
