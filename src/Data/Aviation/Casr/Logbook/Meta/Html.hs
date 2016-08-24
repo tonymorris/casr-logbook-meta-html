@@ -26,6 +26,7 @@ module Data.Aviation.Casr.Logbook.Meta.Html(
   , htmlSimulatorFlightMeta
   , htmlExamMeta
   , htmlBriefingMeta
+  , htmlLogbookDocumentMeta
   , showCentsAsDollars
   , showThousandCentsAsDollars
   , showHundredCentsAsDollars
@@ -34,12 +35,14 @@ module Data.Aviation.Casr.Logbook.Meta.Html(
 
 import Control.Category((.), id)
 import Control.Monad(when)
-import Data.Aviation.Casr.Logbook.Types (
+import Data.Aviation.Casr.Logbook.Types(
     AircraftFlight
   , SimulatorFlight
   , Briefing
   , Exam
+  , Logbook
   )
+import Data.Aviation.Casr.Logbook.Html.Html(htmlLogbookDocument)
 import Data.Aviation.Casr.Logbook.Meta(
     AircraftFlightExpense(ExpenseAircraftUsage, ExpenseAircraftLanding)
   , AircraftFlightMeta(AircraftFlightMeta)
@@ -361,6 +364,13 @@ htmlBriefingMeta b (BriefingMeta s) =
     do  span_ [class_ "briefingmetaheader"] "Expenses"
         ul_ [] $
           mapM_ (li_ [class_ "expense"] . htmlBriefingExpense b) q) s
+
+htmlLogbookDocumentMeta ::
+  Html ()
+  -> Logbook AircraftFlightMeta SimulatorFlightMeta ExamMeta BriefingMeta
+  -> Html ()
+htmlLogbookDocumentMeta =
+  htmlLogbookDocument htmlAircraftFlightMeta htmlSimulatorFlightMeta htmlExamMeta htmlBriefingMeta
 
 ----
 
