@@ -54,6 +54,7 @@ import Data.Aviation.Casr.Logbook.Meta(
   , ExamMeta(ExamMeta)
   , Image(Image)
   , ImageType(Jpg, Png, Gif)
+  , Passenger(Passenger)
   , SimulatorFlightExpense(SimulatorFlightExpense)
   , SimulatorFlightMeta(SimulatorFlightMeta)
   , TrackLog(TrackLog)
@@ -323,17 +324,35 @@ htmlAircraftFlightExpenses fl x =
         ul_ [] $
           mapM_ (li_ [class_ "aircraftflightexpense"] . htmlAircraftFlightExpense fl) q) x
 
+htmlAircraftFlightPassenger ::
+  AircraftFlight
+  -> Passenger
+  -> Html ()
+htmlAircraftFlightPassenger _ (Passenger p) =
+  do span_ [class_ "aircraftflightpassenger"] (fromString p)
+
+htmlAircraftFlightPax ::
+  AircraftFlight
+  -> [Passenger]
+  -> Html ()
+htmlAircraftFlightPax fl x =
+  whenEmpty (\q -> div_ [class_ "aircraftflightpax"] $
+    do  span_ [class_ "aircraftflightpaxheader"] "PAX"
+        ul_ [] $
+          mapM_ (li_ [class_ "aircraftflightpassenger"] . htmlAircraftFlightPassenger fl) q) x
+
 htmlAircraftFlightMeta ::
   AircraftFlight
   -> AircraftFlightMeta
   -> Html ()
-htmlAircraftFlightMeta fl (AircraftFlightMeta tls vls ims vds exs) =
+htmlAircraftFlightMeta fl (AircraftFlightMeta tls vls ims vds exs pax) =
   div_ $ 
     do  htmlTrackLogs fl tls
         htmlVisualisations fl vls
         htmlImages fl ims
         htmlVideos fl vds
         htmlAircraftFlightExpenses fl exs
+        htmlAircraftFlightPax fl pax
 
 htmlSimulatorFlightMeta ::
   SimulatorFlight

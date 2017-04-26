@@ -1,5 +1,5 @@
 name:               casr-logbook-meta-html
-version:            0.0.4
+version:            0.0.5
 license:            OtherLicense
 license-file:       LICENSE
 author:             Tony Morris <ʇǝu˙sıɹɹoɯʇ@ןןǝʞsɐɥ>
@@ -35,7 +35,7 @@ library
                     base < 5 && >= 4.8
                     , casr-logbook-types >= 0.0.1 && < 0.1
                     , casr-logbook-html >= 0.0.2 && < 0.1
-                    , casr-logbook-meta >= 0.0.4 && < 0.1
+                    , casr-logbook-meta >= 0.0.5 && < 0.1
                     , lucid >= 2.9 && < 3
                     , lens >= 4.1 && < 5
                     , text >= 1.2 && < 1.3
